@@ -4,12 +4,11 @@ const lastName = document.getElementById("lastName");
 const eMail = document.getElementById("eMail");
 const password = document.getElementById("password")
 const confirmPassword = document.getElementById("confirmPassword")
-const year = document.getElementById("year");
-const month = document.getElementById("month");
-const day = document.getElementById("day");
+const yearInput = document.getElementById("year");
+const monthInput = document.getElementById("month");
+const dayInput = document.getElementById("day");
 const address = document.getElementById("address")
 const zipCode = document.getElementById("zipCode")
-const ort = document.getElementById("ort")
 
 
 
@@ -27,18 +26,20 @@ const ort = document.getElementById("ort")
     const eMailValue = eMail.value.trim();
     const passwordValue = password.value.trim(); 
     const confirmPasswordValue = confirmPassword.value.trim(); 
-    const birthDateValue = birthDate.value.trim();
+    const yearValue = yearInput.value.trim();
+    const monthValue = monthInput.value.trim();
+    const dayValue = dayInput.value.trim();
     const addressValue = address.value.trim(); 
-    
+    const zipCodeValue = zipCode.value.trim();
 
-    if(firstNameValue < 2) {
-		setErrorFor(firstName, 'Förnamn måste vara minst 2 tecken');
+    if(firstNameValue.length < 2) {
+		setErrorFor(firstName, 'Förnamn måste innehålla minst 2 tecken');
 	} else {
 		setSuccessFor(firstName);
 	}
 	
-    if(lastNameValue < 2 ) {
-		setErrorFor(lastName, 'Efternamn måste vara minst 2 tecken');
+    if(lastNameValue.length < 2 ) {
+		setErrorFor(lastName, 'Efternamn måste innehålla minst 2 tecken');
 	} else {
 		setSuccessFor(lastName);
 	}
@@ -51,34 +52,70 @@ const ort = document.getElementById("ort")
 		setSuccessFor(eMail);
 	}
 
-    if(birthDateValue === '') {
-		setErrorFor(birthDate, 'För att registrera sig så måste man vara över 18år.');
-	} else {
-		setSuccessFor(birthDate);
-	}
-
-    if(addressValue === '') {
-		setErrorFor(address, 'adress måste minst ha två tecken och postnumret måste vara fem tecken.');
-	} else {
-		setSuccessFor(address);
-	}
-
-
-	
-	if(passwordValue === '') {
+    if(passwordValue.length < 8) {
 		setErrorFor(password, 'Måste innehålla minst åtta tecken');
 	} else {
 		setSuccessFor(password);
 	}
 	
-	if(confirmPasswordValue === '') {
+	if(confirmPasswordValue.length < 8) {
 		setErrorFor(confirmPassword, 'Måste innehålla minst åtta tecken');
 	} else if(passwordValue !== confirmPasswordValue) {
 		setErrorFor(confirmPassword, 'Matchar inte med lösenord');
 	} else{
 		setSuccessFor(confirmPassword);
 	}
+
+    if(yearValue === '') {
+		setErrorFor(yearInput, 'För att registrera sig så måste man vara över 18år.');
+	} else {
+		setSuccessFor(yearInput);
+	}
+
+    if(monthValue === '') {
+		setErrorFor(monthInput, 'För att registrera sig så måste man vara över 18år.');
+	} else {
+		setSuccessFor(monthInput);
+	}
+
+    if(dayValue === '') {
+		setErrorFor(dayInput, 'För att registrera sig så måste man vara över 18år.');
+	} else {
+		setSuccessFor(dayInput);
+	}
+
+    if(addressValue.length < 2 ) {
+		setErrorFor(address, 'Måste ha minst två tecken');
+	} else {
+		setSuccessFor(address);
+	}
+
+    if(zipCodeValue.length == 5 ) {
+        setSuccessFor(zipCode);
+	} else {
+		setErrorFor(zipCode, 'Måste vara fem tecken');
+	}
+
+
+	
+	
 }
+
+let today = new Date();
+let date = today.getDate();
+let month = (today.getMonth()+1)
+let year = today.getFullYear()
+
+let currentAge
+let currentMonth
+let fullYear = `${year} ${month} ${date}`
+
+let calcYear = (thisYear, inputYear) => {
+        let ageFromYear = thisYear - inputYear
+
+    return ageFromYear
+}
+console.log(fullYear)
 
 function setErrorFor(input, message) {
 	const formControl = input.parentElement;
