@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="Anton Ekström">
+   <title></title>
+   
+   
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="error"></div>
+    <form id="form">
+
+    <div class="formcol">
+        <label for="firstName">Förnamn:</label>
+        <input type="text" id="firstName" name="firstName"><br>
+        <p id="firstName-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="lastName">Efternamn:</label>
+        <input type="text" id="lastName" name="lastName"><br>
+        <p id="lastName-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="eMail">E-postadress:</label>
+        <input type="text" id="eMail" name="eMail"><br>
+        <p id="eMail-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="password">Lösenord:</label>
+        <input type="password" id="password" name="password"><br>
+        <p id="password-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="confirmPassword">Bekräfta Lösenord:</label>
+        <input type="text" id="confirmPassword" name="confirmPassword"><br>
+        <p id="confirmPassword-error"></p>
+    </div>
+
+    <div class="formcol"> 
+        <label for="date">Ange födelsedatum (åååå-mm-dd):</label>
+        <input type="text" id="year" name="year" placeholder="År"><br>
+        <input type="text" id="month" name="month" placeholder="Månad"><br>
+        <input type="text" id="day" name="day" placeholder="Dag"><br>
+        <p id="date-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="address">Adress:</label>
+        <input type="text" id="address" name="address"><br>
+        <p id="address-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="zipCode">Postnummer:</label>
+        <input type="text" id="zipCode" name="zipCode"><br>
+        <p id="zipCode-error"></p>
+    </div>
+
+    <div class="formcol">
+        <label for="ort">Ort:</label>
+        <input type="text" id="ort" name="ort"><br>
+        <p id="ort-error"></p>
+    </div>
+
+    <div class="formcol">
+        <button type="submit">Registrera</button>
+        <p id="submit-error"></p>
+    </div>
+
+    </form>
+   
+
+   <script src="script.js"></script>
+</body>
+</html>
