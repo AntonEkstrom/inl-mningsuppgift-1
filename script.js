@@ -1,147 +1,180 @@
-const form = document.getElementById("form");
-const firstName = document.getElementById("firstName");
-const lastName = document.getElementById("lastName");
-const eMail = document.getElementById("eMail");
-const password = document.getElementById("password")
-const confirmPassword = document.getElementById("confirmPassword")
-const yearInput = document.getElementById("year");
-const monthInput = document.getElementById("month");
-const dayInput = document.getElementById("day");
-const address = document.getElementById("address")
-const zipCode = document.getElementById("zipCode")
+function validMinValue(value, minValue = 2) {
+    if(value.length < minValue)
+        return false
 
-
-
-
-
- form.addEventListener('submit', (e) => {
-     e.preventDefault();
-     
-     checkInputs();
- })
-
- function checkInputs(){
-    const firstNameValue = firstName.value.trim();
-    const lastNameValue = lastName.value.trim();
-    const eMailValue = eMail.value.trim();
-    const passwordValue = password.value.trim(); 
-    const confirmPasswordValue = confirmPassword.value.trim(); 
-    const yearValue = yearInput.value.trim();
-    const monthValue = monthInput.value.trim();
-    const dayValue = dayInput.value.trim();
-    const addressValue = address.value.trim(); 
-    const zipCodeValue = zipCode.value.trim();
-
-    if(firstNameValue.length < 2) {
-		setErrorFor(firstName, 'Förnamn måste innehålla minst 2 tecken');
-	} else {
-		setSuccessFor(firstName);
-	}
-	
-    if(lastNameValue.length < 2 ) {
-		setErrorFor(lastName, 'Efternamn måste innehålla minst 2 tecken');
-	} else {
-		setSuccessFor(lastName);
-	}
-
-	if(eMailValue === '') {
-		setErrorFor(eMail, 'Får ej vara tomt');
-	} else if (!isEmail(eMailValue)) {
-		setErrorFor(eMail, 'Inte en giltig e-postadress');
-	} else {
-		setSuccessFor(eMail);
-	}
-
-    if(passwordValue.length < 8) {
-		setErrorFor(password, 'Måste innehålla minst åtta tecken');
-	} else {
-		setSuccessFor(password);
-	}
-	
-	if(confirmPasswordValue.length < 8) {
-		setErrorFor(confirmPassword, 'Måste innehålla minst åtta tecken');
-	} else if(passwordValue !== confirmPasswordValue) {
-		setErrorFor(confirmPassword, 'Matchar inte med lösenord');
-	} else{
-		setSuccessFor(confirmPassword);
-	}
-
-    if(yearValue === '') {
-		setErrorFor(yearInput, 'För att registrera sig så måste man vara över 18år.');
-	} else {
-		setSuccessFor(yearInput);
-	}
-
-    if(monthValue === '') {
-		setErrorFor(monthInput, 'För att registrera sig så måste man vara över 18år.');
-	} else {
-		setSuccessFor(monthInput);
-	}
-
-    if(dayValue === '') {
-		setErrorFor(dayInput, 'För att registrera sig så måste man vara över 18år.');
-	} else {
-		setSuccessFor(dayInput);
-	}
-
-    if(addressValue.length < 2 ) {
-		setErrorFor(address, 'Måste ha minst två tecken');
-	} else {
-		setSuccessFor(address);
-	}
-
-    if(zipCodeValue.length == 5 ) {
-        setSuccessFor(zipCode);
-	} else {
-		setErrorFor(zipCode, 'Måste vara fem tecken');
-	}
-
-
-	
-	
+    return true
 }
 
-let today = new Date();
-let date = today.getDate();
-let month = (today.getMonth()+1)
-let year = today.getFullYear()
+function validpostnummer(value) {
+    const regEx = /^.{5}$/;
+    if(!regEx.test(value))
+        return false
 
-let currentAge
-let currentMonth
-let fullYear = `${year} ${month} ${date}`
-
-let calcYear = (thisYear, inputYear) => {
-        let ageFromYear = thisYear - inputYear
-
-    return ageFromYear
-}
-console.log(fullYear)
-
-function setErrorFor(input, message) {
-	const formControl = input.parentElement;
-	const small = formControl.querySelector('small');
-	formControl.className = 'form-control error';
-	small.innerText = message;
+    return true
 }
 
-function setSuccessFor(input) {
-	const formControl = input.parentElement;
-	formControl.className = 'form-control success';
+function validePost(value) {
+    const regEx = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if(!regEx.test(value))
+        return false
+
+    return true
 }
-	
-function isEmail(eMail) {
-	return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(eMail);
+
+function validlösenord(value) {
+    const regEx = /^[A-Za-z]\w{8,15}$/;
+    if(!regEx.test(value))
+        return false
+
+    return true
 }
 
 
 
+function validConfirmlösenord() {
+    if (document.getElementById('contactForm-lösenord').value == document.getElementById('contactForm-confirmlösenord').value) {
+        return true
+
+    } else {
+        return false
+    }
+}
+
+function onSubmit(e) {
+    e.preventDefault()
+}
+
+function checkValidForm(elements) {
+    let error = false
+    elements.forEach(element => {
+        if(element.value === "")
+            error = true
+        })
+        if(error)
+            document.getElementById("contactForm-submit").disabled = true
+        else
+            document.getElementById("contactForm-submit").disabled = false
+}
+
+var forms = document.querySelectorAll('.needs-validation')
+checkValidForm(forms)
+
+
+forms.forEach(element => {
+    switch(element.id) {
+        case "contactForm-förNamn":
+        case "contactForm-efterNamn":
+        case "contactForm-adress":
+        case "contactForm-ort":
+            element.addEventListener('keyup', function (e) {
+                if(!validMinValue(e.target.value)){ 
+                    e.target.classList.add("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "block"
+                }
+                else { 
+                    e.target.classList.remove("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "none"
+                    checkValidForm(forms)
+                }
+            })
+        break;
+
+        case "contactForm-postnummer":
+            element.addEventListener('keyup', function (e) {
+                if(!validpostnummer(e.target.value)) {
+                    e.target.classList.add("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "block"
+                }
+                else { 
+                    e.target.classList.remove("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "none"
+                    checkValidForm(forms)
+                }
+            })
+        break;
+
+        case "contactForm-ePost":
+            element.addEventListener('keyup', function (e) {
+                if(!validePost(e.target.value)) {
+                    e.target.classList.add("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "block"
+                }
+                else { 
+                    e.target.classList.remove("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "none"
+                    checkValidForm(forms)
+                }
+            })
+        break;
+
+        case "contactForm-lösenord":
+            element.addEventListener('keyup', function (e) {
+                if(!validlösenord(e.target.value)){ 
+                    e.target.classList.add("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "block"
+                }
+                else { 
+                    e.target.classList.remove("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "none"
+                    checkValidForm(forms)
+                }
+            })
+        break;
+
+        case "contactForm-confirmlösenord":
+            element.addEventListener('keyup', function (e) {
+                if(!validConfirmlösenord(e.target.value)){ 
+                    e.target.classList.add("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "block"
+                }
+                else { 
+                    e.target.classList.remove("is-invalid")
+                    document.getElementById(`${e.target.id}-error`).style.display = "none"
+                    checkValidForm(forms)
+                }
+            })
+        break;
+
+        case "contactForm-födelseDatum":
+            element.addEventListener('keyup', function (e) {
+                if(validAge(e.target.value)) { 
+                    e.target.classList.add("is-invalid")
+                    document.getElementById("contactFormfödelseDatumerror").style.display = "block"
+                }
+                else { 
+                    e.target.classList.remove("is-invalid")
+                    document.getElementById("contactFormfödelseDatumerror").style.display = "none"
+                    checkValidForm(forms)
+                }
+            })
+        break;
+
+    }
+})
+
+
+function validAge(birth) {
+    var today = new Date();
+    var todayyear = today.getFullYear();
+    var todaymonth = today.getMonth();
+    var todayday = today.getDate();
+    var b = document.getElementById('contactForm-födelseDatum').value;
+    var birth = new Date(b);
+    var birthyear = birth.getFullYear();
+    var birthmonth = birth.getMonth();
+    var födelseDatum = birth.getDate();
+    var age = todayyear - birthyear;
+    var age_month = todaymonth - birthmonth;
+    var age_day = todayday - födelseDatum;
 
 
 
-
-
-
-
-
-
-
+    if (age_month < 0 || (age_month == 0 && age_day < 0)) {
+        age = parseInt(age) - 1;
+        
+        return true
+    }
+    if ((age == 18 && age_month <= 0 && age_day <= 0) || age < 18){
+        return true;
+    }
+}
